@@ -1,0 +1,41 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<Challenge2Alkemy.Models.PostViewModel>
+@{
+    ViewData["Title"] = "POSTEOS";
+}
+<h2>@ViewBag.Title</h2>
+<div class="row" style="text-align:right;padding:5px;">
+    <a href="~/Post/Create" class="btn btn-primary">CREAR POST</a>
+</div>
+
+<div class="row">
+    @if (TempData["mensaje"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert"></div>
+        @TempData["mensaje"]
+        <button type="button" class="close" data-dismiss="alert" arial-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    }
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <th>Titulo</th>
+            </tr>
+            @foreach (var index in Model)
+            {
+                <tr>
+                    <td>@index.Titulo</td>
+                    <td>
+                        <a class="btn btn-default" href="~/Post/Edit/@index.Id">EDITAR</a>
+                        <a class="btn btn-danger" href="~/Post/Delete/@index.Id">BORRAR</a>
+                        <a class="btn btn-primary" href="~/Post/Details/@index.Id">VER DETALLES</a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+</div>
