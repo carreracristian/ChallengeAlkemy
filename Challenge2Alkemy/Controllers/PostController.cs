@@ -19,21 +19,18 @@ namespace Challenge2Alkemy.Controllers
         //http get Index
         public IActionResult Index()
         {
-            //DateTime min = DateTime.MinValue;
-            //DateTime max = DateTime.MinValue;
             IEnumerable<PostViewModel> listaPosts = _context.Post;
-            //List<PostViewModel> listaOrdenada = new List<PostViewModel>();
-            listaPosts.OrderBy(x => x.FechaDeCreacion);
-            /*foreach (var item in listaPosts)
+            List<PostViewModel> listaOrdenada = new List<PostViewModel>();
+            foreach (var item in listaPosts)
             {
-                if (item.FechaDeCreacion>min)
+                if (item.EstaBorrado==false)
                 {
-                    max = item.FechaDeCreacion;
                     listaOrdenada.Add(item);
                 }
-            }*/
+            }
+            listaOrdenada.OrderBy(x => x.FechaDeCreacion);
 
-            return View(listaPosts);
+            return View(listaOrdenada);
         }
         //http get create
         public IActionResult Create()
@@ -43,6 +40,7 @@ namespace Challenge2Alkemy.Controllers
         [HttpPost]
         public IActionResult Create(PostViewModel model)
         {
+            //obtener los bytes de model.Imagen para guardar en la db
             if (ModelState.IsValid)
             {
                 _context.Post.Add(model);
@@ -106,7 +104,9 @@ namespace Challenge2Alkemy.Controllers
             {
                 return NotFound();
             }
-                _context.Post.Remove(post);
+            
+                post.EstaBorrado = true;
+                _context.Post.Update(post);
                 _context.SaveChanges();
                 TempData["mensaje"] = "Se elimino el posteo exitosamente";
                 return RedirectToAction("Index");

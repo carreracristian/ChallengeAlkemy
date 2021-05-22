@@ -36,5 +36,6 @@ namespace Challenge2Alkemy.Models
         [DataType(DataType.Date)]
         [Display(Name = "Fecha de Posteo")]
         public DateTime FechaDeCreacion { get; set; }
+        public bool EstaBorrado { get; set; }
     }
 }
